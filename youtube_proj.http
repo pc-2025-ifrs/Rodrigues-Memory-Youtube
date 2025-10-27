@@ -1,0 +1,184 @@
+@host = http://localhost:5241
+
+### ========================================
+### ACCOUNTS - Gerenciamento de Contas
+### ========================================
+
+### 1. Criar nova conta (Isabella)
+POST {{host}}/api/v1/accounts
+Content-Type: application/json
+
+{
+    "username": "IsabellaRosa",
+    "email": "isabella@example.com"
+}
+
+### 2. Criar nova conta (João)
+POST {{host}}/api/v1/accounts
+Content-Type: application/json
+
+{
+    "username": "JoaoSilva",
+    "email": "joao@example.com"
+}
+
+### 3. Listar todas as contas
+GET {{host}}/api/v1/accounts
+Accept: application/json
+
+### 4. Buscar conta por ID (substituir {id} pelo ID retornado)
+GET {{host}}/api/v1/accounts/{id}
+Accept: application/json
+
+### 5. Buscar conta por username
+GET {{host}}/api/v1/accounts/username/IsabellaRosa
+Accept: application/json
+
+### 6. Atualizar conta (substituir {id} pelo ID retornado)
+PUT {{host}}/api/v1/accounts/{id}
+Content-Type: application/json
+
+{
+    "username": "Isabella_Rosa_Oficial",
+    "email": "isabella.rosa@example.com"
+}
+
+### 7. Deletar conta (substituir {id} pelo ID retornado)
+DELETE {{host}}/api/v1/accounts/{id}
+
+
+### ========================================
+### VIDEOS - Gerenciamento de Vídeos
+### ========================================
+
+### 8. Publicar novo vídeo (substituir accountId pelo ID da conta criada)
+POST {{host}}/api/v1/videos
+Content-Type: application/json
+
+{
+    "title": "Tutorial de C# - Parte 1",
+    "description": "Aprenda C# do zero neste tutorial completo",
+    "durationInSeconds": 1200,
+    "accountId": "COLE_O_ID_DA_CONTA_AQUI"
+}
+
+### 9. Publicar outro vídeo
+POST {{host}}/api/v1/videos
+Content-Type: application/json
+
+{
+    "title": "Desenvolvendo APIs REST com ASP.NET Core",
+    "description": "Como criar APIs profissionais",
+    "durationInSeconds": 1800,
+    "accountId": "COLE_O_ID_DA_CONTA_AQUI"
+}
+
+### 10. Listar todos os vídeos
+GET {{host}}/api/v1/videos
+Accept: application/json
+
+### 11. Buscar vídeo por ID (substituir {id})
+GET {{host}}/api/v1/videos/{id}
+Accept: application/json
+
+### 12. Listar vídeos de uma conta específica (substituir {accountId})
+GET {{host}}/api/v1/videos/account/{accountId}
+Accept: application/json
+
+### 13. Vídeos em trending (mais visualizados)
+GET {{host}}/api/v1/videos/trending?limit=5
+Accept: application/json
+
+### 14. Incrementar visualização de um vídeo (substituir {id})
+POST {{host}}/api/v1/videos/{id}/view
+
+### 15. Atualizar vídeo (substituir {id})
+PUT {{host}}/api/v1/videos/{id}
+Content-Type: application/json
+
+{
+    "title": "Tutorial de C# - Parte 1 [ATUALIZADO]",
+    "description": "Aprenda C# do zero - versão atualizada 2024"
+}
+
+### 16. Deletar vídeo (substituir {id})
+DELETE {{host}}/api/v1/videos/{id}
+
+
+### ========================================
+### COMMENTS - Gerenciamento de Comentários
+### ========================================
+
+### 17. Criar comentário em um vídeo (substituir videoId e authorId)
+POST {{host}}/api/v1/comments
+Content-Type: application/json
+
+{
+    "text": "Excelente tutorial! Muito bem explicado.",
+    "videoId": "COLE_O_ID_DO_VIDEO_AQUI",
+    "authorId": "COLE_O_ID_DO_AUTOR_AQUI"
+}
+
+### 18. Criar outro comentário
+POST {{host}}/api/v1/comments
+Content-Type: application/json
+
+{
+    "text": "Estava procurando exatamente isso, obrigado!",
+    "videoId": "COLE_O_ID_DO_VIDEO_AQUI",
+    "authorId": "COLE_O_ID_DO_AUTOR_AQUI"
+}
+
+### 19. Listar todos os comentários
+GET {{host}}/api/v1/comments
+Accept: application/json
+
+### 20. Buscar comentário por ID (substituir {id})
+GET {{host}}/api/v1/comments/{id}
+Accept: application/json
+
+### 21. Listar comentários de um vídeo específico (substituir {videoId})
+GET {{host}}/api/v1/comments/video/{videoId}
+Accept: application/json
+
+### 22. Listar comentários de um autor específico (substituir {authorId})
+GET {{host}}/api/v1/comments/author/{authorId}
+Accept: application/json
+
+### 23. Editar comentário (substituir {id})
+PUT {{host}}/api/v1/comments/{id}
+Content-Type: application/json
+
+{
+    "text": "Excelente tutorial! Muito bem explicado. [EDITADO: Já assisti 3 vezes!]"
+}
+
+### 24. Adicionar like ao comentário (substituir {id})
+POST {{host}}/api/v1/comments/{id}/like
+
+### 25. Adicionar dislike ao comentário (substituir {id})
+POST {{host}}/api/v1/comments/{id}/dislike
+
+### 26. Deletar comentário (substituir {id})
+DELETE {{host}}/api/v1/comments/{id}
+
+
+### ========================================
+### FLUXO COMPLETO DE TESTE
+### ========================================
+
+### PASSO 1: Criar duas contas
+### Execute as requisições 1 e 2 e copie os IDs retornados
+
+### PASSO 2: Publicar vídeos
+### Execute a requisição 8 substituindo o accountId pelo ID da primeira conta
+### Execute várias vezes a requisição 14 para incrementar views
+
+### PASSO 3: Adicionar comentários
+### Execute as requisições 17 e 18 substituindo videoId e authorId
+
+### PASSO 4: Interagir com comentários
+### Execute as requisições 24 e 25 para likes/dislikes
+
+### PASSO 5: Verificar trending
+### Execute a requisição 13 para ver os vídeos mais visualizados
