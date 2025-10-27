@@ -4,10 +4,7 @@ using YouTube.Repositories;
 
 namespace WebYouTube.Controllers;
 
-/// <summary>
-/// Controller para gerenciar contas do YouTube
-/// Rota base: /api/v1/accounts
-/// </summary>
+
 [ApiController]
 [Route("api/v1/accounts")]
 public class AccountsController : ControllerBase
@@ -21,20 +18,16 @@ public class AccountsController : ControllerBase
         _repo = repo;
     }
 
-    /// <summary>
-    /// POST /api/v1/accounts - Criar nova conta
-    /// </summary>
+
     [HttpPost(Name = "CreateAccount")]
     public IActionResult CreateAccount([FromBody] NewAccountDTO newAccount)
     {
-        // Verificar se username já existe
         var existingAccount = _repo.GetByUsername(newAccount.Username);
         if (existingAccount != null)
         {
             return BadRequest($"Username '{newAccount.Username}' já está em uso");
         }
 
-        // Converter DTO para Model
         var account = new Account
         {
             Id = Guid.NewGuid(),
@@ -50,9 +43,7 @@ public class AccountsController : ControllerBase
         return CreatedAtRoute("GetAccountById", new { id = account.Id }, account);
     }
 
-    /// <summary>
-    /// GET /api/v1/accounts - Listar todas as contas
-    /// </summary>
+
     [HttpGet(Name = "GetAllAccounts")]
     public ActionResult<IEnumerable<Account>> GetAll()
     {
@@ -60,9 +51,7 @@ public class AccountsController : ControllerBase
         return Ok(accounts);
     }
 
-    /// <summary>
-    /// GET /api/v1/accounts/{id} - Buscar conta por ID
-    /// </summary>
+
     [HttpGet("{id}", Name = "GetAccountById")]
     public ActionResult<Account> GetById(Guid id)
     {
@@ -76,9 +65,7 @@ public class AccountsController : ControllerBase
         return Ok(account);
     }
 
-    /// <summary>
-    /// GET /api/v1/accounts/username/{username} - Buscar conta por username
-    /// </summary>
+
     [HttpGet("username/{username}", Name = "GetAccountByUsername")]
     public ActionResult<Account> GetByUsername(string username)
     {
@@ -92,9 +79,7 @@ public class AccountsController : ControllerBase
         return Ok(account);
     }
 
-    /// <summary>
-    /// PUT /api/v1/accounts/{id} - Atualizar conta
-    /// </summary>
+
     [HttpPut("{id}", Name = "UpdateAccount")]
     public IActionResult UpdateAccount(Guid id, [FromBody] UpdateAccountDTO updateAccount)
     {
@@ -105,7 +90,7 @@ public class AccountsController : ControllerBase
             return NotFound($"Conta com ID {id} não encontrada");
         }
 
-        // Atualizar campos
+
         account.Username = updateAccount.Username ?? account.Username;
         account.Email = updateAccount.Email ?? account.Email;
 
@@ -114,9 +99,7 @@ public class AccountsController : ControllerBase
         return Ok(account);
     }
 
-    /// <summary>
-    /// DELETE /api/v1/accounts/{id} - Deletar conta
-    /// </summary>
+
     [HttpDelete("{id}", Name = "DeleteAccount")]
     public IActionResult DeleteAccount(Guid id)
     {
@@ -133,14 +116,9 @@ public class AccountsController : ControllerBase
     }
 }
 
-// DTOs (Data Transfer Objects) para as requisições
 
-/// <summary>
-/// DTO para criação de nova conta
-/// </summary>
 public record class NewAccountDTO(string Username, string Email);
 
-/// <summary>
-/// DTO para atualização de conta
-/// </summary>
+
+
 public record class UpdateAccountDTO(string? Username, string? Email);
